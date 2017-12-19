@@ -1,0 +1,26 @@
+{
+  "name": "geom-builder",
+  "version": "1.0.0",
+  "description": "Simplicial-complex-like geometry builder backed by typed arrays",
+  "main": "index.js",
+  "license": "MIT",
+  "author": {
+    "name": "Marcin Ignac",
+    "email": "marcin.ignac@gmail.com",
+    "url": "https://github.com/vorg"
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "scripts": {
+    "test": "node test.js"
+  },
+  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/vorg/geom-builder.git"
+  },
+  "homepage": "https://github.com/vorg/geom-builder",
+  "bugs": {
+    "url": "https://github.com/vorg/geom-builder/issues"
+  }
+}
