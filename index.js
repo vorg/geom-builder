@@ -1,81 +1,83 @@
+// TODO
+// add positions documentation
+// change index to offset so it's always up to date?
+// allow int instead of bool
+
 function GeomBuilder (opts) {
-  this.size = opts.size || 32
+  opts = opts || {}
   this.count = 0
 
-  this.positions = new Float32Array(this.size * 3)
+  var size = opts.size || 32
+  this.positions = new Float32Array(size * isNaN(opts.positions) ? 3 : opts.positions)
   this.positionsIndex = 0
 
+  if (opts.colors) {
+    this.colors = new Float32Array(size * (isNaN(opts.colors) ? 4 : opts.colors))
+    this.colorsIndex = 0
+  }
   if (opts.normals) {
-    this.normals = new Float32Array(this.size * 3)
+    this.normals = new Float32Array(size * (isNaN(opts.normals) ? 3 : opts.normals))
     this.normalsIndex = 0
   }
   if (opts.uvs) {
-    this.uvs = new Float32Array(this.size * 2)
+    this.uvs = new Float32Array(size * (isNaN(opts.uvs) ? 2 : opts.uvs))
     this.uvsIndex = 0
   }
-  if (opts.colors) {
-    this.colors = new Float32Array(this.size * 4)
-    this.colorsIndex = 0
-  }
   if (opts.cells) {
-    this.cells = new Uint16Array(this.size * 3) // just an estimate
+    this.cells = new Uint16Array(size * (isNaN(opts.cells) ? 3 : opts.cells))
     this.indexCount = 0
   }
 }
 
-GeomBuilder.prototype.addPosition = function (p) {
-  if (this.positionsIndex * 3 + 3 >= this.positions.length) {
+GeomBuilder.prototype.addPosition = function (pos) {
+  var values = arguments[0].length ? pos : arguments
+  if (this.positionsIndex + values.length >= this.positions.length) {
     this.positions = this._expandFloatArray(this.positions)
   }
-  var i = this.positionsIndex * 3
-  this.positions[i + 0] = p[0]
-  this.positions[i + 1] = p[1]
-  this.positions[i + 2] = p[2]
-  this.positionsIndex++
+  for (var i = 0; i < values.length; i++) {
+    this.positions[this.positionsIndex++] = values[i]
+  }
   this.count++
 }
 
-GeomBuilder.prototype.addNormal = function (n) {
-  if (this.normalsIndex * 3 + 3 >= this.normals.length) {
+GeomBuilder.prototype.addColor = function (color) {
+  var values = arguments[0].length ? color : arguments
+  if (this.colorsIndex + values.length >= this.colors.length) {
+    this.colors = this._expandFloatArray(this.colors)
+  }
+  for (var i = 0; i < values.length; i++) {
+    this.colors[this.colorsIndex++] = values[i]
+  }
+}
+
+GeomBuilder.prototype.addNormal = function (normal) {
+  var values = arguments[0].length ? normal : arguments
+  if (this.normalsIndex + values.length >= this.normals.length) {
     this.normals = this._expandFloatArray(this.normals)
   }
-  var i = this.normalsIndex * 3
-  this.normals[i + 0] = n[0]
-  this.normals[i + 1] = n[1]
-  this.normals[i + 2] = n[2]
-  this.normalsIndex++
+  for (var i = 0; i < values.length; i++) {
+    this.normals[this.normalsIndex++] = values[i]
+  }
 }
 
 GeomBuilder.prototype.addUV = function (uv) {
-  if (this.uvsIndex * 2 + 2 >= this.uvs.length) {
+  var values = arguments[0].length ? uv : arguments
+  if (this.uvsIndex + values.length >= this.uvs.length) {
     this.uvs = this._expandFloatArray(this.uvs)
   }
-  var i = this.uvsIndex * 2
-  this.uvs[i + 0] = uv[0]
-  this.uvs[i + 1] = uv[1]
-  this.uvsIndex++
-}
-
-GeomBuilder.prototype.addColor = function (c) {
-  if (this.colorsIndex * 4 + 4 >= this.colors.length) {
-    this.colors = this._expandFloatArray(this.colors)
+  for (var i = 0; i < values.length; i++) {
+    this.uvs[this.uvsIndex++] = values[i]
   }
-  var i = this.colorsIndex * 4
-  this.colors[i + 0] = c[0]
-  this.colors[i + 1] = c[1]
-  this.colors[i + 2] = c[2]
-  this.colors[i + 3] = c[3]
-  this.colorsIndex++
 }
 
-GeomBuilder.prototype.addCell = function (...indices) {
-  if (indices[0].length) indices = indices[0] // allow array-like cell
+GeomBuilder.prototype.addCell = function (indices) {
+  var values = arguments[0].length ? indices : arguments
 
-  if (this.indexCount + indices.length >= this.cells.length) {
+  if (this.indexCount + values.length >= this.cells.length) {
     this.cells = this._expandUintArray(this.cells)
   }
-  for (var i = 0; i < indices.length; i++) {
-    this.cells[this.indexCount++] = indices[i]
+  for (var i = 0; i < values.length; i++) {
+    this.cells[this.indexCount++] = values[i]
   }
 }
 
@@ -89,6 +91,7 @@ GeomBuilder.prototype.reset = function () {
 }
 
 GeomBuilder.prototype._expandFloatArray = function (a) {
+  console.log(`Expanding ${a.length} to ${a.length * 2}`)
   const biggerArray = new Float32Array(a.length * 2)
   biggerArray.set(a)
   return biggerArray

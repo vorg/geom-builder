@@ -13,7 +13,7 @@ npm install geom-builder --save
 
 ```javascript
 const createGeomBuilder = require('geom-builder')
-const builder = createGeomBuilder({ colors: true, cells: true })
+const builder = createGeomBuilder({ colors: true, cells: 3 })
 
 builder.addPosition([0, 0, 0])
 builder.addPosition([1, 0, 0])
@@ -51,16 +51,17 @@ var createGeomBuilder = require('geom-builder')
 
 ### `builder = createGeomBuilder(opts)`
 
-Create new geometry builder
+Create new geometry builder. Each attribute can be enabled by passing `true` with default size or specified by passing a number instead of Boolean e.g.: `createGeomBuilder({ positions: 4, colors: true, cells: 2 })`
 
 - `opts`
-    - `size` : Boolean - preallocated vertex buffer size, default 32
-    - `colors` : Boolean - enable vec4 colors attribute, `false`
-    - `normals` : Boolean - enable vec3 normals attribute, `false`
-    - `uvs` : Boolean - enable vec2 uvs attribute, `false`
-    - `cells` : Boolean - enable vec{1,2,3} cells (indices), `false`
+    - `size` : Boolean - preallocated vertex buffer size, `32`
+    - `positions` : Boolean/Int - enable vec3 positions attribute, `true/3`
+    - `colors` : Boolean/Int - enable vec4 colors attribute, `false/3`
+    - `normals` : Boolean/Int - enable vec3 normals attribute, `false/3`
+    - `uvs` : Boolean/Int - enable vec2 uvs attribute, `false/2`
+    - `cells` : Boolean/Int - enable vec3 cells (indices), `false/3`
 
-*Note: `positions` attribute is always enabled*
+*Note: `positions` attribute is always enabled and defaults to size 3*
 
 ## Adding vertex and index data
 
