@@ -498,13 +498,16 @@ const landscape5 = {
     aPosition: ctx.vertexBuffer(g5.positions),
     aColor: ctx.vertexBuffer(g5.colors)
   },
-  indices: ctx.indexBuffer(g5.cells)
+  indices: { buffer: ctx.indexBuffer(g5.cells), count: g5.indexCount }
 }
 console.timeEnd('geometry from geom builder with indices - upload cold')
 console.time('geometry from geom builder with indices - upload hot')
 ctx.update(landscape5.attributes.aPosition, { data: g5.positions })
 ctx.update(landscape5.attributes.aColor, { data: g5.colors })
 console.timeEnd('geometry from geom builder with indices - upload hot')
+
+console.log('geometry indices allocated', g5.cells.length)
+console.log('geometry indices used', g5.indexCount)
 
 let g6bg = createGeometryFromGeomBuilderWithCells(null, [1, 1, 1, 1], -0.01)
 const landscape6bg = {

@@ -27,6 +27,7 @@ builder.addCell([0, 1, 0])
 // or builder.addCell(0, 1, 0)
 
 //builder.count = 3 //vertex count
+//builder.indexCount = 3 //indices count
 //builder.positions = Float32Array(0, 0, 0, 1, 0, 0, 1, 1, 0, ..,)
 //builder.colors = Float32Array(1, 0, 0, 1, 0, 1, 0, 1, 0, 0, 1, 1, ...)
 //builder.cells = Uint16Array(0, 1, 2, ...)
@@ -63,8 +64,7 @@ Create new geometry builder
 
 ## Adding vertex and index data
 
-Every time we add vertex position, color etc internal buffer size is checked and expanded by doubling capacity as neccesary.
-Therefore `builder.count` should be used to determine how many vertices to draw instead of `builder.positions.length` as not all allocated vertex has to be used.
+Every time we add vertex position, color etc internal buffer size is checked and expanded by doubling capacity as neccesary.  Therefore `builder.count` should be used to determine how many vertices to draw instead of `builder.positions.length` as not all allocated vertex has to be used.  Similarly for meshes with cells `builder.indexCount` should be used instead of `builder.cells.length`.
 
 ### builder.reset() 
 
