@@ -275,6 +275,29 @@ function createGeometryFromGeomBuilderWithCellsAsLines (builder) {
   return builder
 }
 
+function createGeometryFromGeomBuilderWithCellsAsColumns (builder) {
+  random.seed(0)
+  builder = builder || createGeomBuilder({ colors: true, cells: true })
+  var index = 0
+  var N2 = N / 4
+  for (let x = 0; x < N2; x++) {
+    for (let z = 0; z < N2; z++) {
+      const a = [x / N2 - 0.5, 0, z / N2 - 0.5]
+      a[1] = noiseFunc(a[0], 0, a[2])
+      let color = [0, 0, 0, 1]
+
+      builder.addPosition(a)
+      builder.addColor(color)
+      if (x < N2 - 1 && z < N2 - 1) {
+        builder.addCell(index, index + 1)
+        builder.addCell(index, index + N2)
+      }
+      index++
+    }
+  }
+  return builder
+}
+
 function createGeometryFromGeomBuilderWithCellsAsPoints (builder) {
   random.seed(0)
   builder = builder || createGeomBuilder({ colors: true, cells: true })
@@ -510,6 +533,15 @@ const landscape6p = {
   indices: ctx.indexBuffer(g6p.cells)
 }
 
+let g7 = createGeometryFromGeomBuilderWithCellsAsColumns()
+const landscape7 = {
+  attributes: {
+    aPosition: ctx.vertexBuffer(g7.positions),
+    aColor: ctx.vertexBuffer(g7.colors)
+  },
+  indices: ctx.indexBuffer(g7.cells)
+}
+
 const width = ctx.gl.drawingBufferWidth
 const height = ctx.gl.drawingBufferHeight
 
@@ -576,5 +608,15 @@ ctx.frame(() => {
     indices: landscape6p.indices
   })
 
+  ctx.submit(drawCmd, {
+    viewport: [width * 3 / 4, height / 2, width / 4, height / 2],
+    attributes: landscape6bg.attributes,
+    indices: landscape6bg.indices
+  })
+  ctx.submit(drawLinesCmd, {
+    viewport: [width * 3 / 4, height / 2, width / 4, height / 2],
+    attributes: landscape7.attributes,
+    indices: landscape7.indices
+  })
   frame++
 })
