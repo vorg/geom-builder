@@ -51,10 +51,10 @@ var createGeomBuilder = require('geom-builder')
 
 ### `builder = createGeomBuilder(opts)`
 
-Create new geometry builder. Each attribute can be enabled by passing `true` with default size or specified by passing a number instead of Boolean e.g.: `createGeomBuilder({ positions: 4, colors: true, cells: 2 })`
+Create new geometry builder. Each attribute can be enabled by passing `true` with default size orspecified size by passing a number instead of Boolean e.g.: `createGeomBuilder({ positions: 4, colors: true, cells: 2 })`
 
 - `opts`
-    - `size` : Boolean - preallocated vertex buffer size, `32`
+    - `size` : Int - preallocated vertex buffer size, `32`
     - `positions` : Boolean/Int - enable vec3 positions attribute, `true/3`
     - `colors` : Boolean/Int - enable vec4 colors attribute, `false/3`
     - `normals` : Boolean/Int - enable vec3 normals attribute, `false/3`
@@ -65,7 +65,11 @@ Create new geometry builder. Each attribute can be enabled by passing `true` wit
 
 ## Adding vertex and index data
 
-Every time we add vertex position, color etc internal buffer size is checked and expanded by doubling capacity as neccesary.  Therefore `builder.count` should be used to determine how many vertices to draw instead of `builder.positions.length` as not all allocated vertex has to be used.  Similarly for meshes with cells `builder.indexCount` should be used instead of `builder.cells.length`.
+Every time we add vertex position, color etc internal buffer size is checked and expanded by doubling its capacity as neccesary.  Therefore `builder.count` should be used to determine how many vertices to draw instead of `builder.positions.length` as not all allocated vertex has to be used.  Similarly for meshes with cells `builder.indexCount` should be used instead of `builder.cells.length`.
+
+All enabled attributes can be accessed by `builder.attribName` e.g.: `builder.colors`.
+
+All data methods accept structs or individual components. E.g. `builder.addPosition(v)` and `builder.addPosition(v[0], v[1], v[2])`.
 
 ### builder.reset() 
 
