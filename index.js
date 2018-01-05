@@ -8,23 +8,23 @@ function GeomBuilder (opts) {
   this.count = 0
 
   var size = opts.size || 32
-  this.positions = new Float32Array(size * isNaN(opts.positions) ? 3 : opts.positions)
+  this.positions = new Float32Array(size * (opts.positions || 3))
   this.positionsIndex = 0
 
   if (opts.colors) {
-    this.colors = new Float32Array(size * (isNaN(opts.colors) ? 4 : opts.colors))
+    this.colors = new Float32Array(size * opts.colors)
     this.colorsIndex = 0
   }
   if (opts.normals) {
-    this.normals = new Float32Array(size * (isNaN(opts.normals) ? 3 : opts.normals))
+    this.normals = new Float32Array(size * opts.normals)
     this.normalsIndex = 0
   }
   if (opts.uvs) {
-    this.uvs = new Float32Array(size * (isNaN(opts.uvs) ? 2 : opts.uvs))
+    this.uvs = new Float32Array(size * opts.uvs)
     this.uvsIndex = 0
   }
   if (opts.cells) {
-    this.cells = new Uint16Array(size * (isNaN(opts.cells) ? 3 : opts.cells))
+    this.cells = new Uint16Array(size * opts.cells)
     this.indexCount = 0
   }
 }
