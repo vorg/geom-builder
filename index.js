@@ -91,7 +91,6 @@ GeomBuilder.prototype.reset = function () {
 }
 
 GeomBuilder.prototype._expandFloatArray = function (a) {
-  console.log(`Expanding ${a.length} to ${a.length * 2}`)
   const biggerArray = new Float32Array(a.length * 2)
   biggerArray.set(a)
   return biggerArray
