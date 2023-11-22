@@ -26,7 +26,10 @@ class GeomBuilder {
       this.uvsIndex = 0;
     }
     if (opts.cells) {
-      this.cells = new Uint16Array(size * opts.cells);
+      const UintTypedArray = typedArrayConstructor(
+        Math.max(256, size * opts.cells), // Ensure Uint16Array at minimum
+      );
+      this.cells = new UintTypedArray(size * opts.cells);
       this.indexCount = 0;
     }
   }
@@ -93,7 +96,8 @@ class GeomBuilder {
   }
 
   _expandUintArray(a) {
-    const biggerArray = new Uint16Array(a.length * 2);
+    const UintTypedArray = typedArrayConstructor(a.length * 2);
+    const biggerArray = new UintTypedArray(a.length * 2);
     biggerArray.set(a);
     return biggerArray;
   }
