@@ -1,26 +1,45 @@
 {
   "name": "geom-builder",
   "version": "2.1.0",
-  "description": "Simplicial-complex-like geometry builder backed by typed arrays",
-  "main": "index.js",
-  "license": "MIT",
-  "author": {
-    "name": "Marcin Ignac",
-    "email": "marcin.ignac@gmail.com",
-    "url": "https://github.com/vorg"
-  },
-  "dependencies": {},
-  "devDependencies": {},
-  "scripts": {
-    "test": "node test.js"
-  },
-  "keywords": [],
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/vorg/geom-builder.git"
-  },
+  "description": "Simplicial-complex-like geometry builder backed by typed arrays.",
+  "keywords": [
+    "geom",
+    "builder",
+    "simplicial",
+    "complex",
+    "3d",
+    "pex",
+    "geometry",
+    "webgl"
+  ],
   "homepage": "https://github.com/vorg/geom-builder",
-  "bugs": {
-    "url": "https://github.com/vorg/geom-builder/issues"
+  "bugs": "https://github.com/vorg/geom-builder/issues",
+  "repository": "vorg/geom-builder",
+  "license": "MIT",
+  "author": "Marcin Ignac <marcin.ignac@gmail.com> (https://github.com/vorg)",
+  "contributors": [
+    "Damien Seguin (https://github.com/dmnsgn)"
+  ],
+  "type": "module",
+  "exports": "./index.js",
+  "main": "index.js",
+  "types": "types/index.d.ts",
+  "scripts": {
+    "dev": "snowdev dev",
+    "release": "snowdev release"
+  },
+  "dependencies": {
+    "typed-array-constructor": "^1.0.1"
+  },
+  "devDependencies": {
+    "es-module-shims": "^1.8.2",
+    "pex-cam": "^3.0.0-alpha.1",
+    "pex-color": "^2.0.0-alpha.2",
+    "pex-context": "^3.0.0-alpha.8",
+    "pex-random": "^2.0.0-alpha.2"
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "npm": ">=9.6.4"
   }
 }

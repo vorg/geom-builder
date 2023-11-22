@@ -1,7 +1,10 @@
-node_modules
-*.log
-.DS_Store
-screenshot.png
-example/
-.npmignore
-LICENSE.md
+web_modules
+examples
+docs
+coverage
+test
+.github
+screenshot.*
+index.html
+tsconfig.json
+.editorconfig
