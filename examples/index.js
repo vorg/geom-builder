@@ -25,7 +25,7 @@ const clearCmd = {
   }),
 };
 
-const N = 200;
+const N = 280;
 
 const HsluvToRgb = ([h, s, l]) =>
   toRGB(fromHSLuv(create(), (h % 360) / 360, (s % 100) / 100, (l % 100) / 100));
