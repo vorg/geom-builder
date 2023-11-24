@@ -58,7 +58,7 @@ _Note: `positions` attribute is always enabled and defaults to size 3_
 
 ## Adding vertex and index data
 
-Every time we add vertex position, color etc internal buffer size is checked and expanded by doubling its capacity as neccesary. Therefore `builder.count` should be used to determine how many vertices to draw instead of `builder.positions.length` as not all allocated vertex has to be used. Similarly for meshes with cells `builder.indexCount` should be used instead of `builder.cells.length`.
+Every time we add vertex position, color etc internal buffer size is checked and expanded by doubling its capacity as necessary. Therefore `builder.count` should be used to determine how many vertices to draw instead of `builder.positions.length` as not all allocated vertex has to be used. Similarly for meshes with cells `builder.indexCount` should be used instead of `builder.cells.length`.
 
 All enabled attributes can be accessed by `builder.attribName` e.g.: `builder.colors`.
 

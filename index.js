@@ -26,9 +26,7 @@ class GeomBuilder {
       this.uvsIndex = 0;
     }
     if (opts.cells) {
-      const UintTypedArray = typedArrayConstructor(
-        Math.max(256, size * opts.cells), // Ensure Uint16Array at minimum
-      );
+      const UintTypedArray = typedArrayConstructor(Math.max(256, size)); // Ensure Uint16Array at minimum
       this.cells = new UintTypedArray(size * opts.cells);
       this.indexCount = 0;
     }
@@ -72,6 +70,13 @@ class GeomBuilder {
   }
 
   addCell(indices) {
+    if (
+      Math.max(...indices) > 65535 &&
+      this.cells.constructor !== Uint32Array
+    ) {
+      this.cells = new Uint32Array(this.cells);
+    }
+
     if (this.indexCount + indices.length >= this.cells.length) {
       this.cells = this._expandUintArray(this.cells);
     }
@@ -96,8 +101,7 @@ class GeomBuilder {
   }
 
   _expandUintArray(a) {
-    const UintTypedArray = typedArrayConstructor(a.length * 2);
-    const biggerArray = new UintTypedArray(a.length * 2);
+    const biggerArray = new a.constructor(a.length * 2);
     biggerArray.set(a);
     return biggerArray;
   }
