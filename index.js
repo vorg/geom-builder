@@ -27,7 +27,7 @@ class GeomBuilder {
     }
     if (opts.cells) {
       const UintTypedArray = typedArrayConstructor(
-        Math.max(256, size * opts.cells), // Ensure Uint16Array at minimum
+        Math.max(256, size), // Ensure Uint16Array at minimum
       );
       this.cells = new UintTypedArray(size * opts.cells);
       this.indexCount = 0;
@@ -96,7 +96,7 @@ class GeomBuilder {
   }
 
   _expandUintArray(a) {
-    const UintTypedArray = typedArrayConstructor(a.length * 2);
+    const UintTypedArray = typedArrayConstructor(this.positionsIndex);
     const biggerArray = new UintTypedArray(a.length * 2);
     biggerArray.set(a);
     return biggerArray;
