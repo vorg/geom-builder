@@ -1,6 +1,6 @@
 {
   "name": "geom-builder",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Simplicial-complex-like geometry builder backed by typed arrays.",
   "keywords": [
     "geom",
