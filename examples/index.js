@@ -2,7 +2,7 @@ import createGeomBuilder from "../index.js";
 
 import createContext from "pex-context";
 import random from "pex-random";
-import { create, fromHSLuv, toRGB } from "pex-color";
+import { create, fromHSLuv } from "pex-color";
 import { perspective as createCamera, orbiter as createOrbiter } from "pex-cam";
 
 const ctx = createContext({
@@ -28,7 +28,7 @@ const clearCmd = {
 const N = 280;
 
 const HsluvToRgb = ([h, s, l]) =>
-  toRGB(fromHSLuv(create(), (h % 360) / 360, (s % 100) / 100, (l % 100) / 100));
+  fromHSLuv(create(), (h % 360) / 360, (s % 100) / 100, (l % 100) / 100);
 
 function noiseFunc(x, y, z) {
   var n = 0;
@@ -70,7 +70,7 @@ function createGeometryFromArrays() {
   }
   return {
     positions: positions,
-    colors: colors,
+    vertexColors: colors,
     count: positions.length,
   };
 }
@@ -106,7 +106,7 @@ function createGeometryFromTypedArrays() {
   }
   return {
     positions: positions,
-    colors: colors,
+    vertexColors: colors,
     count: N * N * 6,
   };
 }
@@ -184,14 +184,14 @@ function createGeometryFromTypedArraysNoGC() {
   }
   return {
     positions: positions,
-    colors: colors,
+    vertexColors: colors,
     count: N * N * 6,
   };
 }
 
 function createGeometryFromGeomBuilder(builder) {
   random.seed(0);
-  builder = builder || createGeomBuilder({ colors: true });
+  builder = builder || createGeomBuilder({ vertexColors: true });
   for (let x = 0; x < N; x++) {
     for (let z = 0; z < N; z++) {
       const a = [x / N - 0.5, 0, z / N - 0.5];
@@ -215,12 +215,12 @@ function createGeometryFromGeomBuilder(builder) {
       builder.addPosition(d);
       builder.addPosition(c);
 
-      builder.addColor(color);
-      builder.addColor(color);
-      builder.addColor(color);
-      builder.addColor(color);
-      builder.addColor(color);
-      builder.addColor(color);
+      builder.addVertexColor(color);
+      builder.addVertexColor(color);
+      builder.addVertexColor(color);
+      builder.addVertexColor(color);
+      builder.addVertexColor(color);
+      builder.addVertexColor(color);
     }
   }
   return builder;
@@ -228,7 +228,7 @@ function createGeometryFromGeomBuilder(builder) {
 
 function createGeometryFromGeomBuilderWithCells(builder, solidColor, yOffset) {
   random.seed(0);
-  builder = builder || createGeomBuilder({ colors: true, cells: true });
+  builder = builder || createGeomBuilder({ vertexColors: true, cells: true });
   var index = 0;
   for (let x = 0; x < N; x++) {
     for (let z = 0; z < N; z++) {
@@ -245,7 +245,7 @@ function createGeometryFromGeomBuilderWithCells(builder, solidColor, yOffset) {
         HsluvToRgb([80 + 80 * (a[1] * 4), 60, 60 + 30 * (1 - a[1] * 4)]);
 
       builder.addPosition(a);
-      builder.addColor(color);
+      builder.addVertexColor(color);
       if (x < N - 1 && z < N - 1) {
         builder.addCell([index, index + 1, index + 1 + N]);
         builder.addCell([index, index + 1 + N, index + N]);
@@ -258,7 +258,7 @@ function createGeometryFromGeomBuilderWithCells(builder, solidColor, yOffset) {
 
 function createGeometryFromGeomBuilderWithCellsAsLines(builder) {
   random.seed(0);
-  builder = builder || createGeomBuilder({ colors: true, cells: true });
+  builder = builder || createGeomBuilder({ vertexColors: true, cells: true });
   var index = 0;
   for (let x = 0; x < N; x++) {
     for (let z = 0; z < N; z++) {
@@ -273,7 +273,7 @@ function createGeometryFromGeomBuilderWithCellsAsLines(builder) {
       const color = HsluvToRgb([180 + 80, 60, 60]);
 
       builder.addPosition(a);
-      builder.addColor(color);
+      builder.addVertexColor(color);
       if (x < N - 1 && z < N - 1) {
         if (x % 3 === 0) {
           builder.addCell([index, index + 1]);
@@ -287,7 +287,7 @@ function createGeometryFromGeomBuilderWithCellsAsLines(builder) {
 
 function createGeometryFromGeomBuilderWithCellsAsColumns(builder) {
   random.seed(0);
-  builder = builder || createGeomBuilder({ colors: true, cells: true });
+  builder = builder || createGeomBuilder({ vertexColors: true, cells: true });
   var index = 0;
   var N2 = N / 4;
   for (let x = 0; x < N2; x++) {
@@ -297,7 +297,7 @@ function createGeometryFromGeomBuilderWithCellsAsColumns(builder) {
       let color = [0, 0, 0, 1];
 
       builder.addPosition(a);
-      builder.addColor(color);
+      builder.addVertexColor(color);
       if (x < N2 - 1 && z < N2 - 1) {
         builder.addCell([index, index + 1]);
         builder.addCell([index, index + N2]);
@@ -310,7 +310,7 @@ function createGeometryFromGeomBuilderWithCellsAsColumns(builder) {
 
 function createGeometryFromGeomBuilderWithCellsAsPoints(builder) {
   random.seed(0);
-  builder = builder || createGeomBuilder({ colors: true, cells: true });
+  builder = builder || createGeomBuilder({ vertexColors: true, cells: true });
   var index = 0;
   for (let x = 0; x < N; x++) {
     for (let z = 0; z < N; z++) {
@@ -325,7 +325,7 @@ function createGeometryFromGeomBuilderWithCellsAsPoints(builder) {
       const color = HsluvToRgb([180 + 80, 60, 60]);
 
       builder.addPosition(a);
-      builder.addColor(color);
+      builder.addVertexColor(color);
       if (x < N - 1 && z < N - 1) {
         if (x % 4 === 0 && z % 4 === 0) {
           builder.addCell([index]);
@@ -339,7 +339,7 @@ function createGeometryFromGeomBuilderWithCellsAsPoints(builder) {
 
 const vert = /* glsl */ `
 attribute vec3 aPosition;
-attribute vec4 aColor;
+attribute vec4 aVertexColor;
 
 uniform mat4 uProjectionMatrix;
 uniform mat4 uViewMatrix;
@@ -347,7 +347,7 @@ uniform mat4 uViewMatrix;
 varying vec4 vColor;
 
 void main () {
-  vColor = aColor;
+  vColor = aVertexColor;
   gl_Position = uProjectionMatrix * uViewMatrix * vec4(aPosition, 1.0);
   gl_PointSize = 5.0;
 }
@@ -412,7 +412,7 @@ console.time("geometry from arrays - upload");
 const landscape1 = {
   attributes: {
     aPosition: ctx.vertexBuffer(g1.positions),
-    aColor: ctx.vertexBuffer(g1.colors),
+    aVertexColor: ctx.vertexBuffer(g1.vertexColors),
   },
   count: g1.count,
 };
@@ -426,7 +426,7 @@ console.time("geometry from typed arrays - upload");
 const landscape2 = {
   attributes: {
     aPosition: ctx.vertexBuffer(g2.positions),
-    aColor: ctx.vertexBuffer(g2.colors),
+    aVertexColor: ctx.vertexBuffer(g2.vertexColors),
   },
   count: g2.count,
 };
@@ -439,7 +439,7 @@ console.time("geometry from typed arrays no GC - upload");
 const landscape3 = {
   attributes: {
     aPosition: ctx.vertexBuffer(g3.positions),
-    aColor: ctx.vertexBuffer(g3.colors),
+    aVertexColor: ctx.vertexBuffer(g3.vertexColors),
   },
   count: g3.count,
 };
@@ -457,7 +457,7 @@ console.time("geometry from geom builder - upload cold");
 const landscape4 = {
   attributes: {
     aPosition: ctx.vertexBuffer(g4.positions),
-    aColor: ctx.vertexBuffer(g4.colors),
+    aVertexColor: ctx.vertexBuffer(g4.vertexColors),
   },
   count: g4.count,
 };
@@ -465,7 +465,7 @@ console.timeEnd("geometry from geom builder - upload cold");
 
 console.time("geometry from geom builder - upload hot");
 ctx.update(landscape4.attributes.aPosition, { data: g4.positions });
-ctx.update(landscape4.attributes.aColor, { data: g4.colors });
+ctx.update(landscape4.attributes.aVertexColor, { data: g4.vertexColors });
 console.timeEnd("geometry from geom builder - upload hot");
 
 console.time("geometry from geom builder with indices - build cold");
@@ -481,7 +481,7 @@ console.time("geometry from geom builder with indices - upload cold");
 const landscape5 = {
   attributes: {
     aPosition: ctx.vertexBuffer(g5.positions),
-    aColor: ctx.vertexBuffer(g5.colors),
+    aVertexColor: ctx.vertexBuffer(g5.vertexColors),
   },
   indices: { buffer: ctx.indexBuffer(g5.cells), count: g5.indexCount },
 };
@@ -489,7 +489,7 @@ console.timeEnd("geometry from geom builder with indices - upload cold");
 
 console.time("geometry from geom builder with indices - upload hot");
 ctx.update(landscape5.attributes.aPosition, { data: g5.positions });
-ctx.update(landscape5.attributes.aColor, { data: g5.colors });
+ctx.update(landscape5.attributes.aVertexColor, { data: g5.vertexColors });
 console.timeEnd("geometry from geom builder with indices - upload hot");
 
 console.log("geometry indices allocated", g5.cells.length);
@@ -499,7 +499,7 @@ const g6bg = createGeometryFromGeomBuilderWithCells(null, clearColor, -0.01);
 const landscape6bg = {
   attributes: {
     aPosition: ctx.vertexBuffer(g6bg.positions),
-    aColor: ctx.vertexBuffer(g6bg.colors),
+    aVertexColor: ctx.vertexBuffer(g6bg.vertexColors),
   },
   indices: ctx.indexBuffer(g6bg.cells),
 };
@@ -508,7 +508,7 @@ const g6 = createGeometryFromGeomBuilderWithCellsAsLines();
 const landscape6 = {
   attributes: {
     aPosition: ctx.vertexBuffer(g6.positions),
-    aColor: ctx.vertexBuffer(g6.colors),
+    aVertexColor: ctx.vertexBuffer(g6.vertexColors),
   },
   indices: ctx.indexBuffer(g6.cells),
 };
@@ -517,7 +517,7 @@ const g6p = createGeometryFromGeomBuilderWithCellsAsPoints();
 const landscape6p = {
   attributes: {
     aPosition: ctx.vertexBuffer(g6p.positions),
-    aColor: ctx.vertexBuffer(g6p.colors),
+    aVertexColor: ctx.vertexBuffer(g6p.vertexColors),
   },
   indices: ctx.indexBuffer(g6p.cells),
 };
@@ -526,7 +526,7 @@ const g7 = createGeometryFromGeomBuilderWithCellsAsColumns();
 const landscape7 = {
   attributes: {
     aPosition: ctx.vertexBuffer(g7.positions),
-    aColor: ctx.vertexBuffer(g7.colors),
+    aVertexColor: ctx.vertexBuffer(g7.vertexColors),
   },
   indices: ctx.indexBuffer(g7.cells),
 };

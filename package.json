@@ -29,17 +29,18 @@
     "release": "snowdev release"
   },
   "dependencies": {
-    "typed-array-constructor": "^1.0.1"
+    "typed-array-constructor": "^1.0.2"
   },
   "devDependencies": {
-    "es-module-shims": "^1.8.2",
-    "pex-cam": "^3.0.0-alpha.1",
-    "pex-color": "^2.0.0-alpha.2",
-    "pex-context": "^3.0.0-alpha.8",
-    "pex-random": "^2.0.0-alpha.2"
+    "es-module-shims": "^2.6.2",
+    "pex-cam": "^3.0.1",
+    "pex-color": "^2.3.0",
+    "pex-context": "^4.0.0",
+    "pex-random": "^2.1.2"
   },
   "engines": {
-    "node": ">=20.0.0",
-    "npm": ">=9.6.4"
+    "node": ">=22.0.0",
+    "npm": ">=10.5.1",
+    "snowdev": ">=2.5.x"
   }
 }
