@@ -62,6 +62,8 @@ class GeomBuilder {
 
       // Adds this.addCell, this.addPosition, this.addNormal...
       this[addFnName] = (value) => {
+        if (typeof value === "number") value = [value];
+
         // Resize indices
         if (
           isIndices &&
