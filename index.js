@@ -62,6 +62,9 @@ class GeomBuilder {
 
       // Adds this.addCell, this.addPosition, this.addNormal...
       this[addFnName] = (value) => {
+        // Allow a plain number for one-dimensional attributes
+        if (typeof value === "number") value = [value];
+
         // Resize indices
         if (
           isIndices &&
